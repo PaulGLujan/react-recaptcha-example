@@ -1,12 +1,16 @@
 import React, { useState } from "react";
-import { addUser } from "./services/users";
+import ReCAPTCHA from "react-google-recaptcha";
+import { addUser } from "../services/users";
 
-const App = () => {
+const AddUserForm = () => {
+  const recaptchaRef = React.createRef();
   const [formData, setFormData] = useState({ firstName: "", lastName: "" });
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const { firstName, lastName } = formData;
-    addUser(firstName, lastName);
+    const reCaptchaToken = await recaptchaRef.current.executeAsync();
+    addUser(reCaptchaToken, firstName, lastName);
   };
 
   const handleInput = (e) => {
@@ -37,9 +41,14 @@ const App = () => {
       />
       <br />
       <br />
+      <ReCAPTCHA
+        ref={recaptchaRef}
+        size="invisible"
+        sitekey="6LfsEdMZAAAAAJ1LzqFvh-inbRmOtUmR72Re922U"
+      />
       <input type="submit" value="Submit" />
     </form>
   );
 };
 
-export default App;
+export default AddUserForm;
