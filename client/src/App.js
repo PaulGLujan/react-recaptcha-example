@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { addUser } from "./services/users";
 
 const App = () => {
-  const [formData, setFormData] = useState({ fname: "", lname: "" });
+  const [formData, setFormData] = useState({ firstName: "", lastName: "" });
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("formData", formData);
+    const { firstName, lastName } = formData;
+    addUser(firstName, lastName);
   };
 
   const handleInput = (e) => {
@@ -14,13 +16,25 @@ const App = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="fname">First name:</label>
+      <label htmlFor="firstName">First name:</label>
       <br />
-      <input type="text" id="fname" name="fname" value={formData["fname"]} onChange={handleInput} />
+      <input
+        type="text"
+        id="firstName"
+        name="firstName"
+        value={formData["firstName"]}
+        onChange={handleInput}
+      />
       <br />
-      <label htmlFor="lname">Last name:</label>
+      <label htmlFor="lastName">Last name:</label>
       <br />
-      <input type="text" id="lname" name="lname" value={formData["lname"]} onChange={handleInput} />
+      <input
+        type="text"
+        id="lastName"
+        name="lastName"
+        value={formData["lastName"]}
+        onChange={handleInput}
+      />
       <br />
       <br />
       <input type="submit" value="Submit" />
